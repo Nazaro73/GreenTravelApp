@@ -64,7 +64,9 @@ class Voyage {
 
     // Extraction sécurisée de la liste des invités, gère le cas où 'guests' est null
     var guestsList = json['guests'] as List? ?? [];
-    List<User> guestList = guestsList.map((dynamic item) => User.fromJson(item as Map<String, dynamic>)).toList();
+    List<User> guestList = guestsList.where((item) => item != null).map((dynamic item) {
+    return User.fromJson(item as Map<String, dynamic>);
+    }).toList();
 
     return Voyage(
       id: json['id_voyage'] as int,

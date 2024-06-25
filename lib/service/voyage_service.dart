@@ -60,7 +60,7 @@ class VoyageService {
 
   Future<List<String>> getTagVoyage() async {
     try {
-      final response = await _dio.get('/tags');
+      final response = await _dio.get('/tags/voyage');
       if (response.statusCode == 200) {
         List<String> tags = List<String>.from(response.data.map((tag) => tag['nom_tag'])); // Transformation en liste de chaînes
         return tags;

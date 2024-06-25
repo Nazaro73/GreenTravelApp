@@ -6,7 +6,13 @@ import '../service/user_service.dart';
 import '../models/User.dart';
 import '../widget/UserSelector.dart';
 import '../widget/Selector/ActiviteByVilleSelectorWidget.dart';
+import '../Widget/NavigationWidget.dart';
 import 'dart:convert';
+import 'accueil_page.dart';
+import 'creer_voyage_page.dart';
+import 'parcourir_page.dart';
+import 'profil_page.dart';
+import 'mes_voyages_page.dart';
 
 class MonVoyagePage extends StatefulWidget {
   final int voyageId;
@@ -18,6 +24,7 @@ class MonVoyagePage extends StatefulWidget {
 }
 
 class _MonVoyagePageState extends State<MonVoyagePage> {
+
   late TextEditingController _nomController;
   late TextEditingController _lieuController;
   late TextEditingController _budgetController;
@@ -25,6 +32,7 @@ class _MonVoyagePageState extends State<MonVoyagePage> {
   DateTime? _endDate;
   List<Activite> _activites = [];
   List<User> _guests = [];
+  String? _img ;
   bool _isLoading = true;
   Voyage? _voyage;
 
@@ -43,6 +51,7 @@ class _MonVoyagePageState extends State<MonVoyagePage> {
       Voyage voyage = await service.getVoyageById(widget.voyageId);
 
       setState(() {
+
         _voyage = voyage;
         _nomController.text = _voyage!.nomVoyage;
         _lieuController.text = _voyage!.lieux;
@@ -51,6 +60,7 @@ class _MonVoyagePageState extends State<MonVoyagePage> {
         _endDate = _voyage!.endDate;
         _activites = List.from(_voyage!.activites);
         _isLoading = false;
+        _img = _voyage!.img;
       });
     } catch (e) {
       setState(() {
@@ -71,6 +81,7 @@ class _MonVoyagePageState extends State<MonVoyagePage> {
       "endDate": _endDate?.toIso8601String(),
       "activites": _activites.map((activite) => activite.toJson()).toList(),
       "guests": _guests.map((guest) => guest.email).toList(),
+
     };
 
     try {
@@ -118,7 +129,7 @@ class _MonVoyagePageState extends State<MonVoyagePage> {
 
   void _openUserCarousel() async {
     UserService userService = UserService();
-    List<User> friends = await userService.getMyFriends(widget.voyageId); // Assurez-vous que l'ID est correct
+    List<User> friends = await userService.getMyFriends(1); // Assurez-vous que l'ID est correct
 
     final selectedUser = await Navigator.push(
       context,
@@ -161,6 +172,13 @@ class _MonVoyagePageState extends State<MonVoyagePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Image.memory(
+              base64Decode(_img ?? ''),  // Ajoutez une gestion pour null ici
+              width: double.infinity,
+              height: 200,
+              fit: BoxFit.cover,
+            ),
+            SizedBox(height: 40),
             TextField(
               controller: _nomController,
               decoration: InputDecoration(labelText: 'Nom du Voyage'),
@@ -242,6 +260,27 @@ class _MonVoyagePageState extends State<MonVoyagePage> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: NavigationWidget(
+        currentIndex: 2 , // Adjust if necessary
+        onSelect: (int index) {
+
+          // Ferme MonVoyagePage
+          Navigator.pop(context);
+
+          // Navigation conditionnelle basée sur l'index
+          if (index == 0) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AccueilPage()));
+          } else if (index == 1) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CreerVoyagePage()));
+          } else if (index == 2) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => MesVoyagesPage()));
+          } else if (index == 3) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ParcourirPage()));
+          } else if (index == 4) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilPage()));
+          }
+        },
       ),
     );
   }

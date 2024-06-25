@@ -1,4 +1,3 @@
-import 'package:bite/screens/mon_voyage.dart';
 import 'package:flutter/material.dart';
 import '../Widget/NavigationWidget.dart';
 import 'accueil_page.dart';
@@ -6,6 +5,7 @@ import 'creer_voyage_page.dart';
 import 'mes_voyages_page.dart';
 import 'parcourir_page.dart';
 import 'profil_page.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -20,6 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
     MesVoyagesPage(),
     ParcourirPage(),
     ProfilPage(),
+
+
   ];
 
   @override

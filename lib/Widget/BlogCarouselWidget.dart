@@ -39,12 +39,12 @@ class ImageTextCarousel extends StatelessWidget {
                       left: 0,
                       right: 0,
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(46),
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.4), // 40% transparent
+                          color: Colors.black.withOpacity(0.8), // 40% transparent
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10),
+                            bottomLeft: Radius.circular(60),
+                            bottomRight: Radius.circular(60),
                           ),
                         ),
                         child: Text(

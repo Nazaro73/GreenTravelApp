@@ -37,7 +37,7 @@ class _MesVoyagesPageState extends State<MesVoyagesPage> {
             floating: false,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              title: Text('My Voyages'),
+              title: Text('Mes Voyages'),
             ),
           ),
           SliverList(
